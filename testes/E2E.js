@@ -1,6 +1,13 @@
 import { browser } from 'k6/browser'
 import { check } from 'https://jslib.k6.io/k6-utils/1.6.0/index.js'
 
+const testEmail = __ENV.TEST_USER_EMAIL
+const testPassword = __ENV.TEST_USER_PASSWORD
+
+if (!testEmail || !testPassword) {
+    throw new Error('Defina TEST_USER_EMAIL e TEST_USER_PASSWORD para executar o teste E2E.')
+}
+
 export const options = {
     scenarios: {
         ui: {
@@ -25,8 +32,8 @@ export default async function () {
             waitFor: 'networkidle',
         })
 
-        await page.locator('#login-email').fill('admin@exemplo.com')
-        await page.locator('#login-password').fill('adminadmin')
+        await page.locator('#login-email').fill(testEmail)
+        await page.locator('#login-password').fill(testPassword)
         await page.getByRole('button', { name: 'Entrar' }).click()
 
         // Wait for the logout button to be visible
