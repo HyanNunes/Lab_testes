@@ -41,6 +41,16 @@ k6 run -e "TEST_USER_EMAIL=$env:TEST_USER_EMAIL" -e "TEST_USER_PASSWORD=$env:TES
 
 O teste verifica o login e a tela de tarefas usando o navegador Chromium do k6.
 
+### Teste da API com k6
+
+Com o servidor em execução, rode:
+
+```powershell
+k6 run testes/api-k6.js
+```
+
+O teste cria uma conta temporária, valida login e operações CRUD de tarefas e exclui a conta ao final. Para usar outro endereço local, defina `BASE_URL`, por exemplo `$env:BASE_URL = "http://localhost:3001"`.
+
 ### Testes de carga e estresse
 
 Com o servidor em execução, rode cada cenário separadamente:

@@ -1,8 +1,8 @@
 import { browser } from 'k6/browser'
 import { check } from 'https://jslib.k6.io/k6-utils/1.6.0/index.js'
 
-const testEmail = __ENV.TEST_USER_EMAIL
-const testPassword = __ENV.TEST_USER_PASSWORD
+const testEmail = __ENV.TEST_USER_EMAIL ||'admin@exemplo.com'
+const testPassword = __ENV.TEST_USER_PASSWORD || 'adminadmin'
 
 if (!testEmail || !testPassword) {
     throw new Error('Defina TEST_USER_EMAIL e TEST_USER_PASSWORD para executar o teste E2E.')

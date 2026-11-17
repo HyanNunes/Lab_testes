@@ -55,6 +55,14 @@ function createSession(user, res) {
     setSessionCookie(res, token);
 }
 
+function invalidateUserSessions(userId) {
+    for (const [token, session] of sessions) {
+        if (session.userId === userId) {
+            sessions.delete(token);
+        }
+    }
+}
+
 function reportServerError(message, error) {
     console.error(message, error);
 }
@@ -113,10 +121,9 @@ app.get('/api/auth/me', requireAuthentication, async (req, res) => {
 });
 
 app.post('/api/auth/logout', (req, res) => {
-    for (const [token, session] of sessions) {
-        if (session.userId === req.userId) {
-            sessions.delete(token);
-        }
+    const token = getSessionToken(req);
+    if (token) {
+        sessions.delete(token);
     }
     clearSessionCookie(res);
     return res.status(204).end();
@@ -127,10 +134,7 @@ app.delete('/api/auth/account', requireAuthentication, async (req, res) => {
         const result = await prisma.user.deleteMany({
             where: { id: req.userId }
         });
-        const token = getSessionToken(req);
-        if (token) {
-            sessions.delete(token);
-        }
+        invalidateUserSessions(req.userId);
         clearSessionCookie(res);
         if (result.count === 0) {
             return res.status(401).json({ error: 'Não autenticado.' });
