@@ -1,0 +1,47 @@
+import { browser } from 'k6/browser'
+import { check } from 'https://jslib.k6.io/k6-utils/1.6.0/index.js'
+
+export const options = {
+    scenarios: {
+        ui: {
+            executor: 'shared-iterations',
+            options: {
+                browser: {
+                    type: 'chromium',
+                },
+            },
+        },
+    },
+    thresholds: {
+        checks: ['rate==1.0'],
+    },
+}
+
+export default async function () {
+    const page = await browser.newPage()
+
+    try {
+        await page.goto('http://localhost:3000', {
+            waitFor: 'networkidle',
+        })
+
+        await page.locator('#login-email').fill('admin@exemplo.com')
+        await page.locator('#login-password').fill('adminadmin')
+        await page.getByRole('button', { name: 'Entrar' }).click()
+
+        // Wait for the logout button to be visible
+        await page.locator('summary', { hasText: 'Conta' }).waitFor()
+        await page.locator('summary', { hasText: 'Conta' }).click()
+        await page.locator('#logout-button').waitFor()
+
+        const label = page.locator('#tasks-title')
+        await label.waitFor()
+
+        const textContent = (await label.textContent()).trim()
+        check(textContent, {
+            header: (t) => t === 'Minhas tarefas',
+        })
+    } finally {
+        await page.close()
+    }
+}
