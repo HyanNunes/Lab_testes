@@ -8,6 +8,10 @@ export const options = {
     { duration: '3m', target: 50 }, // stay at 50 users for 3m
     { duration: '60s', target: 0 }, // ramp-down to 0 users
   ],
+  thresholds: {
+    http_req_failed: ['rate<0.03'], // http errors should be less than 3%
+    http_req_duration: ['p(95)<1000'], // 95% of requests should be below 1000ms
+  },
 };
 
 export default () => {
