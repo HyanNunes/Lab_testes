@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Minhas tarefas</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="container">
+    <section id="auth-view" class="auth-card" aria-labelledby="page-title">
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true">✓</span>
+        <p class="eyebrow">ORGANIZE SEU DIA</p>
+        <h1 id="page-title">Minhas tarefas</h1>
+        <p class="muted">Entre ou crie sua conta para continuar.</p>
+      </header>
+
+      <div class="auth-tabs" role="tablist" aria-label="Acesso">
+        <button id="login-tab" class="tab active" type="button" role="tab"
+                aria-selected="true" aria-controls="login-form">Entrar</button>
+        <button id="register-tab" class="tab" type="button" role="tab"
+                aria-selected="false" aria-controls="register-form">Criar conta</button>
+      </div>
+
+      <form id="login-form" class="form" role="tabpanel" aria-labelledby="login-tab">
+        <label for="login-email">E-mail</label>
+        <input id="login-email" name="email" type="email" autocomplete="email" required>
+        <label for="login-password">Senha</label>
+        <input id="login-password" name="password" type="password"
+               autocomplete="current-password" required>
+        <button class="button primary" type="submit">Entrar</button>
+      </form>
+
+      <form id="register-form" class="form hidden" role="tabpanel"
+            aria-labelledby="register-tab">
+        <label for="register-name">Nome</label>
+        <input id="register-name" name="name" type="text" autocomplete="name"
+               maxlength="80" required>
+        <label for="register-email">E-mail</label>
+        <input id="register-email" name="email" type="email"
+               autocomplete="email" required>
+        <label for="register-password">Senha <span class="hint">(mínimo de 8 caracteres)</span></label>
+        <input id="register-password" name="password" type="password"
+               autocomplete="new-password" minlength="8" required>
+        <button class="button primary" type="submit">Criar conta</button>
+      </form>
+      <p id="auth-message" class="message" aria-live="polite"></p>
+    </section>
+
+    <section id="tasks-view" class="tasks-view hidden" aria-labelledby="tasks-title">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">SEU ESPAÇO DE ORGANIZAÇÃO</p>
+          <h1 id="tasks-title">Minhas tarefas</h1>
+          <p id="welcome-message" class="muted"></p>
+        </div>
+      </header>
+
+      <nav class="app-navigation" aria-label="Menu principal">
+        <button id="tasks-nav" class="navigation-button" type="button">Visualizar tarefas</button>
+        <details id="account-menu" class="account-menu">
+          <summary>Conta</summary>
+          <div class="account-dropdown">
+            <p id="account-name" class="account-name"></p>
+            <button id="logout-button" class="menu-action" type="button">Sair</button>
+            <button id="delete-account-button" class="menu-action danger-action" type="button">
+              Excluir conta
+            </button>
+          </div>
+        </details>
+      </nav>
+
+      <section class="task-panel" aria-labelledby="new-task-title">
+        <h2 id="new-task-title">Adicionar tarefa</h2>
+        <form id="task-form" class="task-form">
+          <label for="task-title">Tarefa</label>
+          <input id="task-title" name="title" type="text" maxlength="120"
+                 placeholder="O que você precisa fazer?" required>
+          <label for="task-description">Descrição <span class="hint">(opcional)</span></label>
+          <textarea id="task-description" name="description" rows="3"
+                    maxlength="1000" placeholder="Adicione mais detalhes"></textarea>
+          <button class="button primary" type="submit">Adicionar tarefa</button>
+        </form>
+      </section>
+
+      <section class="task-panel task-list-panel" aria-labelledby="task-list-title">
+        <div class="section-heading">
+          <h2 id="task-list-title">Sua lista</h2>
+          <span id="task-count" class="task-count"></span>
+        </div>
+        <p id="tasks-message" class="message" aria-live="polite"></p>
+        <ul id="task-list" class="task-list"></ul>
+        <p id="empty-state" class="empty-state hidden">Nenhuma tarefa por aqui. Adicione a primeira!</p>
+      </section>
+    </section>
+  </main>
+  <script src="/script.js" defer></script>
+</body>
+</html>
