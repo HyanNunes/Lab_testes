@@ -1,12 +1,8 @@
 import { browser } from 'k6/browser'
 import { check } from 'https://jslib.k6.io/k6-utils/1.6.0/index.js'
+import { randomString } from 'https://jslib.k6.io/k6-utils/1.0.0/index.js'
 
-const testEmail = __ENV.TEST_USER_EMAIL ||'admin@exemplo.com'
-const testPassword = __ENV.TEST_USER_PASSWORD || 'adminadmin'
-
-if (!testEmail || !testPassword) {
-    throw new Error('Defina TEST_USER_EMAIL e TEST_USER_PASSWORD para executar o teste E2E.')
-}
+const baseUrl = __ENV.BASE_URL || 'http://localhost:3000'
 
 export const options = {
     scenarios: {
@@ -26,30 +22,73 @@ export const options = {
 
 export default async function () {
     const page = await browser.newPage()
+    const email = `e2e-${randomString(10).toLowerCase()}@example.com`
+    const password = `Senha${randomString(12)}123`
+    const taskTitle = `Tarefa E2E ${randomString(6)}`
 
     try {
-        await page.goto('http://localhost:3000', {
-            waitFor: 'networkidle',
+        await page.goto(baseUrl, { waitFor: 'networkidle' })
+
+        await page.locator('#register-tab').click()
+        await page.locator('#register-name').fill('Usuário E2E')
+        await page.locator('#register-email').fill(email)
+        await page.locator('#register-password').fill(password)
+        await page.getByRole('button', { name: 'Criar conta' }).click()
+
+        await page.locator('#tasks-view:not(.hidden)').waitFor()
+        check(await page.locator('#welcome-message').textContent(), {
+            'usuario criado e autenticado': (text) =>
+                text && text.includes('Usuário E2E'),
         })
 
-        await page.locator('#login-email').fill(testEmail)
-        await page.waitForTimeout(500)
-        await page.locator('#login-password').fill(testPassword)
-        await page.waitForTimeout(500)
+        await page.locator('#task-title').fill(taskTitle)
+        await page.locator('#task-description').fill('Criada pelo teste E2E completo.')
+        await page.getByRole('button', { name: 'Adicionar tarefa' }).click()
+
+        await page.getByText(taskTitle, { exact: true }).waitFor()
+        await page.locator('.task-item input[type="checkbox"]').check()
+        await page.waitForTimeout(300)
+
+        const checkbox = page.locator('.task-item input[type="checkbox"]')
+        check(await checkbox.isChecked(), {
+            'checkbox da tarefa marcado': (checked) => checked,
+        })
+
+        await page.getByRole('button', { name: `Excluir ${taskTitle}` }).click()
+        await page.locator('.task-item').waitFor({ state: 'detached' })
+
+        check(await page.locator('#task-count').textContent(), {
+            'tarefa excluida': (text) => text.trim() === '0 tarefas',
+        })
+
+        await page.locator('#account-menu summary').click()
+        await page.locator('#logout-button').click()
+        await page.locator('#auth-view:not(.hidden)').waitFor()
+
+        check(await page.locator('#login-form').isVisible(), {
+            'usuario saiu da conta': (visible) => visible,
+        })
+
+        await page.locator('#login-email').fill(email)
+        await page.locator('#login-password').fill(password)
         await page.getByRole('button', { name: 'Entrar' }).click()
+        await page.locator('#tasks-view:not(.hidden)').waitFor()
 
-        // Wait for the logout button to be visible
-        await page.locator('summary', { hasText: 'Conta' }).waitFor()
-        await page.locator('summary', { hasText: 'Conta' }).click()
-        await page.waitForTimeout(1000)
-        await page.locator('#logout-button').waitFor()
+        check(await page.locator('#welcome-message').textContent(), {
+            'usuario entrou novamente': (text) =>
+                text && text.includes('Usuário E2E'),
+        })
 
-        const label = page.locator('#tasks-title')
-        await label.waitFor()
+        await page.locator('#account-menu summary').click()
+        await page.evaluate(() => {
+            window.confirm = () => true
+        })
+        await page.locator('#delete-account-button').click()
+        await page.locator('#auth-view:not(.hidden)').waitFor()
 
-        const textContent = (await label.textContent()).trim()
-        check(textContent, {
-            header: (t) => t === 'Minhas tarefas',
+        check(await page.locator('#auth-message').textContent(), {
+            'conta excluida': (text) =>
+                text && text.includes('conta'),
         })
     } finally {
         await page.close()

@@ -41,6 +41,24 @@ k6 run -e "TEST_USER_EMAIL=$env:TEST_USER_EMAIL" -e "TEST_USER_PASSWORD=$env:TES
 
 O teste verifica o login e a tela de tarefas usando o navegador Chromium do k6.
 
+Para mostrar o navegador durante a execução, defina o modo headful:
+
+```powershell
+$env:K6_BROWSER_EXECUTABLE_PATH = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+$env:K6_BROWSER_HEADLESS = "false"
+k6 run -e "TEST_USER_EMAIL=$env:TEST_USER_EMAIL" -e "TEST_USER_PASSWORD=$env:TEST_USER_PASSWORD" testes/E2E.js
+```
+
+### Teste E2E completo
+
+Com o servidor em execução e o Chrome ou Chromium instalado, rode:
+
+```powershell
+k6 run -e BASE_URL=http://localhost:3000 testes/E2E-completo.js
+```
+
+O teste cria um usuário exclusivo, cria uma tarefa, marca o check box, exclui a tarefa, faz logout, entra novamente e exclui a conta.
+
 ### Teste da API com k6
 
 Com o servidor em execução, rode:

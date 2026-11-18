@@ -6,6 +6,8 @@
 
 ($env:K6_BROWSER_EXECUTABLE_PATH="C:\Program Files\Local\Do\Executavel"; k6 run E2E.js)
 
+($env:K6_BROWSER_EXECUTABLE_PATH = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; $env:K6_BROWSER_HEADLESS = "false"; k6 run e2e_lento.js)
+
 ## Execução das Migrations  e Inspeção
 
 npx prisma migrate dev
