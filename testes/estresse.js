@@ -4,8 +4,8 @@ import { sleep } from 'k6';
 export const options = {
   // Key configurations for avg load test in this section
   stages: [
-    { duration: '60s', target: 85 }, // traffic ramp-up from 1 to 85 users over 60s.
-    { duration: '3m', target: 200 }, // stay at 200 users for 3m
+    { duration: '60s', target: 400 }, // traffic ramp-up from 1 to 400 users over 60s.
+    { duration: '3m', target: 400 }, // stay at 400 users for 3m
     { duration: '60s', target: 0 }, // ramp-down to 0 users
   ],
 };
