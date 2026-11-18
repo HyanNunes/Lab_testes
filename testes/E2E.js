@@ -33,12 +33,15 @@ export default async function () {
         })
 
         await page.locator('#login-email').fill(testEmail)
+        await page.waitForTimeout(500)
         await page.locator('#login-password').fill(testPassword)
+        await page.waitForTimeout(500)
         await page.getByRole('button', { name: 'Entrar' }).click()
 
         // Wait for the logout button to be visible
         await page.locator('summary', { hasText: 'Conta' }).waitFor()
         await page.locator('summary', { hasText: 'Conta' }).click()
+        await page.waitForTimeout(1000)
         await page.locator('#logout-button').waitFor()
 
         const label = page.locator('#tasks-title')
