@@ -20,3 +20,4 @@ npx prisma studio
 ($env:K6_BROWSER_HEADLESS="false"; $env:K6_BROWSER_EXECUTABLE_PATH="C:\Program Files\Local\Do\Executavel"; 
 k6 run E2E.js)
 
+npm start
