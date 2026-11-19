@@ -2,6 +2,8 @@
 
 Aplicação de página única para cadastro de usuários e gerenciamento de tarefas, com Express, Prisma e SQLite.
 
+A interface permite alternar entre tema claro e noturno; a preferência fica salva no navegador.
+
 ## Requisitos
 
 - Node.js 18 ou superior

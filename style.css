@@ -1,9 +1,75 @@
 :root {
   color-scheme: light;
+  --page-background: #f5f7fb;
+  --page-glow: #e8edff;
+  --surface: #fff;
+  --surface-muted: #f2f4f9;
+  --surface-hover: #f5f7fb;
+  --surface-selected: #e8edff;
+  --text-primary: #172033;
+  --text-secondary: #35415a;
+  --text-muted: #758097;
+  --text-eyebrow: #65708a;
+  --text-subtle: #8790a3;
+  --border: #e6eaf2;
+  --border-control: #dce1eb;
+  --border-soft: #e8ebf2;
+  --border-navigation: #e1e6f0;
+  --accent: #465fdb;
+  --accent-hover: #354cc4;
+  --accent-soft: #3149c4;
+  --accent-focus: #6678e8;
+  --primary-button: #465fdb;
+  --primary-button-hover: #354cc4;
+  --text-danger: #b42332;
+  --surface-danger: #fff1f1;
+  --surface-danger-hover: #ffe4e4;
+  --text-success: #18764a;
+  --brand-text: #425bd5;
+  --text-completed: #8790a3;
+  --shadow-card: rgb(34 49 90 / 7%);
+  --shadow-menu: rgb(34 49 90 / 14%);
+  --shadow-task: rgb(34 49 90 / 5%);
+  --shadow-tab: rgb(28 39 70 / 12%);
   font-family: Inter, "Segoe UI", Arial, sans-serif;
-  color: #172033;
-  background: #f5f7fb;
+  color: var(--text-primary);
+  background: var(--page-background);
   font-synthesis: none;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-background: #111827;
+  --page-glow: #1c2850;
+  --surface: #1f2937;
+  --surface-muted: #273449;
+  --surface-hover: #2a3649;
+  --surface-selected: #2b3a68;
+  --text-primary: #edf2fa;
+  --text-secondary: #d2dbea;
+  --text-muted: #a4b0c2;
+  --text-eyebrow: #b0bdd2;
+  --text-subtle: #a4b0c2;
+  --border: #39475b;
+  --border-control: #46566d;
+  --border-soft: #39475b;
+  --border-navigation: #39475b;
+  --accent: #8295ff;
+  --accent-hover: #9babff;
+  --accent-soft: #bac5ff;
+  --accent-focus: #8295ff;
+  --primary-button: #5266d9;
+  --primary-button-hover: #4055c0;
+  --text-danger: #ff9a9a;
+  --surface-danger: #482b35;
+  --surface-danger-hover: #5a303b;
+  --text-success: #71d5a5;
+  --brand-text: #aab8ff;
+  --text-completed: #9aa8bb;
+  --shadow-card: rgb(0 0 0 / 22%);
+  --shadow-menu: rgb(0 0 0 / 35%);
+  --shadow-task: rgb(0 0 0 / 18%);
+  --shadow-tab: rgb(0 0 0 / 25%);
 }
 
 * {
@@ -15,8 +81,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(ellipse at 10% 0%, #e8edff 0, transparent 38%),
-    #f5f7fb;
+    radial-gradient(ellipse at 10% 0%, var(--page-glow) 0, transparent 38%),
+    var(--page-background);
 }
 
 button,
@@ -40,12 +106,32 @@ button:disabled {
   padding: 64px 0;
 }
 
+.theme-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.theme-toggle {
+  padding: 9px 13px;
+  border: 1px solid var(--border-control);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+}
+
 .auth-card,
 .task-panel {
-  border: 1px solid #e6eaf2;
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 12px 35px rgb(34 49 90 / 7%);
+  background: var(--surface);
+  box-shadow: 0 12px 35px var(--shadow-card);
 }
 
 .auth-card {
@@ -65,15 +151,15 @@ button:disabled {
   margin: 0 auto 16px;
   place-items: center;
   border-radius: 14px;
-  background: #e8edff;
-  color: #425bd5;
+  background: var(--surface-selected);
+  color: var(--brand-text);
   font-size: 25px;
   font-weight: 700;
 }
 
 .eyebrow {
   margin: 0 0 8px;
-  color: #65708a;
+  color: var(--text-eyebrow);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -99,7 +185,7 @@ h2 {
 
 .muted,
 .hint {
-  color: #758097;
+  color: var(--text-muted);
 }
 
 .muted {
@@ -118,7 +204,7 @@ h2 {
   margin: 28px 0 22px;
   padding: 4px;
   border-radius: 10px;
-  background: #f2f4f9;
+  background: var(--surface-muted);
 }
 
 .tab {
@@ -126,14 +212,14 @@ h2 {
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #65708a;
+  color: var(--text-eyebrow);
   font-weight: 600;
 }
 
 .tab.active {
-  background: #fff;
-  color: #3149c4;
-  box-shadow: 0 1px 5px rgb(28 39 70 / 12%);
+  background: var(--surface);
+  color: var(--accent-soft);
+  box-shadow: 0 1px 5px var(--shadow-tab);
 }
 
 .form,
@@ -152,17 +238,17 @@ input,
 textarea {
   width: 100%;
   padding: 12px 13px;
-  border: 1px solid #dce1eb;
+  border: 1px solid var(--border-control);
   border-radius: 9px;
   outline: none;
-  background: #fff;
-  color: #172033;
+  background: var(--surface);
+  color: var(--text-primary);
 }
 
 input:focus,
 textarea:focus {
-  border-color: #6678e8;
-  box-shadow: 0 0 0 3px rgb(102 120 232 / 15%);
+  border-color: var(--accent-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-focus) 15%, transparent);
 }
 
 textarea {
@@ -179,22 +265,22 @@ textarea {
 
 .primary {
   margin-top: 10px;
-  background: #465fdb;
+  background: var(--primary-button);
   color: #fff;
 }
 
 .primary:hover {
-  background: #354cc4;
+  background: var(--primary-button-hover);
 }
 
 .secondary {
-  border: 1px solid #dce1eb;
-  background: #fff;
-  color: #35415a;
+  border: 1px solid var(--border-control);
+  background: var(--surface);
+  color: var(--text-secondary);
 }
 
 .secondary:hover {
-  background: #f5f7fb;
+  background: var(--surface-hover);
 }
 
 .message {
@@ -204,11 +290,11 @@ textarea {
 }
 
 .message.error {
-  color: #b42332;
+  color: var(--text-danger);
 }
 
 .message.success {
-  color: #18764a;
+  color: var(--text-success);
 }
 
 .hidden {
@@ -239,7 +325,7 @@ textarea {
   justify-content: space-between;
   margin-bottom: 22px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e1e6f0;
+  border-bottom: 1px solid var(--border-navigation);
 }
 
 .navigation-button,
@@ -248,7 +334,7 @@ textarea {
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #35415a;
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 650;
   cursor: pointer;
@@ -258,8 +344,8 @@ textarea {
 .navigation-button:hover,
 .account-menu summary:hover,
 .account-menu[open] summary {
-  background: #e8edff;
-  color: #3149c4;
+  background: var(--surface-selected);
+  color: var(--accent-soft);
 }
 
 .account-menu {
@@ -283,17 +369,17 @@ textarea {
   width: 210px;
   gap: 4px;
   padding: 8px;
-  border: 1px solid #e6eaf2;
+  border: 1px solid var(--border);
   border-radius: 11px;
-  background: #fff;
-  box-shadow: 0 12px 30px rgb(34 49 90 / 14%);
+  background: var(--surface);
+  box-shadow: 0 12px 30px var(--shadow-menu);
 }
 
 .account-name {
   overflow: hidden;
   margin: 0;
   padding: 8px;
-  color: #758097;
+  color: var(--text-muted);
   font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -304,20 +390,20 @@ textarea {
   border: 0;
   border-radius: 7px;
   background: transparent;
-  color: #35415a;
+  color: var(--text-secondary);
   text-align: left;
 }
 
 .menu-action:hover {
-  background: #f2f4f9;
+  background: var(--surface-muted);
 }
 
 .danger-action {
-  color: #b42332;
+  color: var(--text-danger);
 }
 
 .danger-action:hover {
-  background: #fff1f1;
+  background: var(--surface-danger);
 }
 
 .task-panel {
@@ -335,7 +421,7 @@ textarea {
 }
 
 .task-count {
-  color: #758097;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
@@ -356,17 +442,17 @@ textarea {
   gap: 12px;
   min-height: 175px;
   padding: 17px;
-  border: 1px solid #e8ebf2;
+  border: 1px solid var(--border-soft);
   border-radius: 11px;
-  background: #fff;
-  box-shadow: 0 5px 16px rgb(34 49 90 / 5%);
+  background: var(--surface);
+  box-shadow: 0 5px 16px var(--shadow-task);
 }
 
 .task-item > input[type="checkbox"] {
   width: 18px;
   height: 18px;
   margin: 2px 0 0;
-  accent-color: #465fdb;
+  accent-color: var(--accent);
   cursor: pointer;
 }
 
@@ -382,14 +468,14 @@ textarea {
 
 .task-content p {
   margin: 0;
-  color: #758097;
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.5;
   white-space: pre-wrap;
 }
 
 .task-item.completed .task-content h3 {
-  color: #8790a3;
+  color: var(--text-completed);
   text-decoration: line-through;
 }
 
@@ -398,20 +484,20 @@ textarea {
   justify-self: end;
   align-self: end;
   min-height: 34px;
-  padding: 7px 10px;
-  background: #fff1f1;
-  color: #b42332;
-  font-size: 12px;
   margin-top: auto;
+  padding: 7px 10px;
+  background: var(--surface-danger);
+  color: var(--text-danger);
+  font-size: 12px;
 }
 
 .delete-button:hover {
-  background: #ffe4e4;
+  background: var(--surface-danger-hover);
 }
 
 .empty-state {
   margin: 25px 0 5px;
-  color: #758097;
+  color: var(--text-muted);
   text-align: center;
 }
 

@@ -10,6 +10,25 @@ const tasksMessage = document.getElementById("tasks-message");
 const taskList = document.getElementById("task-list");
 const emptyState = document.getElementById("empty-state");
 const taskCount = document.getElementById("task-count");
+const themeToggle = document.getElementById("theme-toggle");
+const themeColor = document.querySelector('meta[name="theme-color"]');
+
+function applyTheme(theme) {
+  const isDark = theme === "dark";
+  document.documentElement.dataset.theme = isDark ? "dark" : "light";
+  themeToggle.textContent = isDark ? "Ativar modo normal" : "Ativar modo noturno";
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeColor.content = isDark ? "#111827" : "#f5f7fb";
+}
+
+const savedTheme = localStorage.getItem("task-theme");
+applyTheme(savedTheme === "dark" ? "dark" : "light");
+
+themeToggle.addEventListener("click", () => {
+  const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  applyTheme(nextTheme);
+  localStorage.setItem("task-theme", nextTheme);
+});
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
